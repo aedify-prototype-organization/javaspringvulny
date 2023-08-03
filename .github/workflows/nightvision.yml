@@ -12,11 +12,11 @@ env:
   NIGHTVISION_TARGET: https://localhost:9000/
   
 jobs:
+  build-code:
+    uses: aedify-prototype-organization/javaspringvulny/.github/workflows/docker-image.yml@v1
+  
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Build Code
-        uses: aedify-prototype-organization/javaspringvulny/.github/workflows/docker-image.yml@v1
-
       - name: Spawn JavaSpringVulny daemon
         run: docker-compose up -d; sleep 10
