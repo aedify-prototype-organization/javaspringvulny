@@ -3,20 +3,14 @@ name: NightVision Native, Standalone
 on:
   push:
   workflow_dispatch:
-  
-permissions:
-  security-events: write
 
-env:
-  NIGHTVISION_TOKEN: ${{ secrets.NIGHTVISION_TOKEN }}
-  NIGHTVISION_TARGET: https://localhost:9000/
-  
 jobs:
-  build-code:
-    uses: aedify-prototype-organization/javaspringvulny/.github/workflows/docker-image.yml@main
-  
-  test:
+
+  build:
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: Spawn JavaSpringVulny daemon
-        run: docker-compose up -d; sleep 10
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker-compose build
