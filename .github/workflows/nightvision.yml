@@ -6,6 +6,7 @@ on:
 
 permissions:
   security-events: write
+  contents: read
 
 env:
   NIGHTVISION_TOKEN: ${{ secrets.NIGHTVISION_TOKEN }}
