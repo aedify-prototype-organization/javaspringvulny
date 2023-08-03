@@ -13,7 +13,7 @@ env:
   
 jobs:
   build-code:
-    uses: aedify-prototype-organization/javaspringvulny/.github/workflows/docker-image.yml@v1
+    uses: aedify-prototype-organization/javaspringvulny/.github/workflows/docker-image.yml@main
   
   test:
     runs-on: ubuntu-latest
