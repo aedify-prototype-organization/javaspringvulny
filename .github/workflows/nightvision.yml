@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: (0) actions/checkout@v3
-    - name: Build the Docker image
+    - uses: actions/checkout@v3
+    - name: (0) Build the Docker image
       run: docker-compose build
 
-    - name: (1) run docker image
-      run: docker-compose up -d; sleep 10
+    - name: (1) Run docker image
+      run: docker-compose up -d; sleep 1
   
   stage-nightvision:
     runs-on: ubuntu-latest
@@ -26,6 +26,18 @@ jobs:
       run: |
           wget -c https://downloads.nightvision.net/binaries/latest/nightvision_latest_linux_amd64.tar.gz -O - | tar -xz; sudo mv nightvision /usr/local/bin/
                   python -m pip install semgrep --user
+
+    - name: (3) Extract API documentation from code
+      run: nightvision swagger-extract ./ -u ${NIGHTVISION_TARGET} --lang spring
+
+    - name: (5) Scan the API
+      run: nightvision scan --creds-id 313d6a1e-5de3-4f91-b800-42981927634c ${NIGHTVISION_TARGET}
+
+    - name: (6) Upload SARIF file to GitHub Security Alerts if vulnerabilities are found
+      uses: github/codeql-action/upload-sarif@v2
+      if: success()
+      with:
+        sarif_file: results.sarif
 
   
   
