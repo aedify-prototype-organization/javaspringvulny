@@ -15,5 +15,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: (1) Clone Code
-        uses: actions/checkout@v3
+      - name: Build Code
+        uses: aedify-prototype-organization/javaspringvulny/.github/workflows/docker-image.yml@v1
+
+      - name: Spawn JavaSpringVulny daemon
+        run: docker-compose up -d; sleep 10
