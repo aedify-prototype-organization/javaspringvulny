@@ -30,7 +30,7 @@ jobs:
         run: docker-compose up -d; sleep 10
 
       - name: (5) Scan the API
-        run: nightvision scan --creds-id 313d6a1e-5de3-4f91-b800-42981927634c ${NIGHTVISION_TARGET}
+        run: nightvision scan --creds-id ${NIGHTVISION_TARGET_CREDENTIALS} ${NIGHTVISION_TARGET}
 
       - name: (6) Upload SARIF file to GitHub Security Alerts if vulnerabilities are found
         uses: github/codeql-action/upload-sarif@v2
