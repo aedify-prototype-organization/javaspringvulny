@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: (1) Clone Code
         uses: actions/checkout@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: (2) Install NightVision
         run: |
