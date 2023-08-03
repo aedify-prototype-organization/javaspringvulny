@@ -1,0 +1,19 @@
+name: NightVision Native, Standalone
+
+on:
+  push:
+  workflow_dispatch:
+  
+permissions:
+  security-events: write
+
+env:
+  NIGHTVISION_TOKEN: ${{ secrets.NIGHTVISION_TOKEN }}
+  NIGHTVISION_TARGET: https://localhost:9000/
+  
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: (1) Clone Code
+        uses: actions/checkout@v3
