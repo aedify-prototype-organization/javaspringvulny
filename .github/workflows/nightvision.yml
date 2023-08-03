@@ -1,4 +1,4 @@
-name: NightVision
+name: NightVision Native, Standalone
 
 on:
   push:
