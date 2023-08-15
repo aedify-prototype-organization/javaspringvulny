@@ -54,6 +54,7 @@ jobs:
 
     steps:
       - name: (3) Acquire project listing
+        shell: bash
         run: |
           cx project list --filter "limit=0" --format json > CX_PROJECT_LISTING.json
           SCAN_ID=$(/go/bin/gojq '.[] | .ID' CX_SCAN_LISTING | cut -f 2 -d '"')
@@ -62,5 +63,6 @@ jobs:
           cat native_output.json
 
       - name: (2) conduct scan
+        shell: bash
         run: | 
           cx scan create --project-name "${{ github.event.repository.name }}" --branch main --report-format sarif --output-name native_output.json
