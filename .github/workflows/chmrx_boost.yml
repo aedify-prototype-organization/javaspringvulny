@@ -51,8 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     container: 
       image: m1splacedsoul/chmrx_boost:latest@sha256:f9b903c2efec985f3e7631eb020e543e0e498a0ab0d42ec5a1062223f54c629f
-      options: "--entrypoint /bin/bash"
-      options: --user dev
+      options: "--user dev --entrypoint /bin/bash"
 
     steps:
       - name: (3) Acquire project listing
