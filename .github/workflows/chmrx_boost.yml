@@ -63,4 +63,4 @@ jobs:
           /home/dev/bin/cx scan list --filter "project-id=${PROJ_ID},status=completed,limit=1" --format json > /home/dev/output/CX_SCAN_LISTING
           SCAN_ID=$(/go/bin/gojq '.[] | .ID' /home/dev/output/CX_SCAN_LISTING | cut -f 2 -d '"')
           echo "Scan ID: ${SCAN_ID}"
-          /home/dev/bin/cx results show --scan-id ${SCAN_ID} --report-format sarif --output-name /home/dev/output/native_output.json
+          /home/dev/bin/cx results show --scan-id ${SCAN_ID} --report-format sarif --output-path /home/dev/output --output-name native_output.json
