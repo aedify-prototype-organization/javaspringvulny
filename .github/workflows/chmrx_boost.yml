@@ -46,19 +46,19 @@ jobs:
         rm cx.tar.gz
         chmod +x cx
         
-  scan:
-    runs-on: ubuntu-latest
-    container: 
-      image: m1splacedsoul/chmrx_boost:latest@sha256:77f70f7601aec9be6048f4df24e5fee76ebfd6930736326a8c979fff06bbdbb0
+  # scan:
+  #   runs-on: ubuntu-latest
+  #   container: 
+  #     image: m1splacedsoul/chmrx_boost:latest@sha256:77f70f7601aec9be6048f4df24e5fee76ebfd6930736326a8c979fff06bbdbb0
 
-    steps:
-      - name: (3) Acquire project listing
-        run: |
-          cx project list --filter "limit=0" --format json > CX_PROJECT_LISTING.json
-          SCAN_ID=$(/go/bin/gojq '.[] | .ID' CX_SCAN_LISTING | cut -f 2 -d '"')
-          echo "Scan ID: ${SCAN_ID}"
-          cx results show --scan-id ${SCAN_ID} --report-format sarif --output-name native_output.json
-          cat native_output.json
+  #   steps:
+  #     - name: (3) Acquire project listing
+  #       run: |
+  #         cx project list --filter "limit=0" --format json > CX_PROJECT_LISTING.json
+  #         SCAN_ID=$(/go/bin/gojq '.[] | .ID' CX_SCAN_LISTING | cut -f 2 -d '"')
+  #         echo "Scan ID: ${SCAN_ID}"
+  #         cx results show --scan-id ${SCAN_ID} --report-format sarif --output-name native_output.json
+  #         cat native_output.json
 
     # - name: (2) conduct scan
     #   run: | 
