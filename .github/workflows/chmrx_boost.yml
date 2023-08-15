@@ -45,10 +45,7 @@ jobs:
         tar -zxvf cx.tar.gz cx
         rm cx.tar.gz
         chmod +x cx
-
-    # - name: (2) conduct scan
-    #   run: | 
-    #     cx scan create --project-name "${{ github.event.repository.name }}" --branch main --report-format sarif --output-name native_output.json
+        
   scan:
     runs-on: ubuntu-latest
     container: 
@@ -62,3 +59,7 @@ jobs:
           echo "Scan ID: ${SCAN_ID}"
           cx results show --scan-id ${SCAN_ID} --report-format sarif --output-name native_output.json
           cat native_output.json
+
+    # - name: (2) conduct scan
+    #   run: | 
+    #     cx scan create --project-name "${{ github.event.repository.name }}" --branch main --report-format sarif --output-name native_output.json
