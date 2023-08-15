@@ -57,6 +57,6 @@ jobs:
       - name: (3) Acquire project listing
         run: |
           /home/dev/bin/cx project list --filter "limit=0" --format json > /home/dev/output/CX_PROJECT_LISTING.json
-          SCAN_ID=$(/go/bin/gojq '.[] | .ID' /home/dev/output/CX_SCAN_LISTING | cut -f 2 -d '"')
+          SCAN_ID=$(/go/bin/gojq '.[] | .ID' /home/dev/output/CX_SCAN_LISTING.json | cut -f 2 -d '"')
           echo "Scan ID: ${SCAN_ID}"
           /home/dev/bin/cx results show --scan-id ${SCAN_ID} --report-format sarif --output-name /home/dev/output/native_output.json
