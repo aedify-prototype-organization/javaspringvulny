@@ -1,7 +1,6 @@
 name: NightVision - Native, Standalone
 
 on:
-  push:
   workflow_dispatch:
 
 permissions:
