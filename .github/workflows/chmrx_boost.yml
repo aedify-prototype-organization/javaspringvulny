@@ -36,7 +36,8 @@ jobs:
             exit 1
             ;;
         esac
-    
+
+        echo "${BINARY_URL}"
         curl -o cx.tar.gz -fsSL "${BINARY_URL}"
         echo "${SHA}" | sha256sum --check
 
