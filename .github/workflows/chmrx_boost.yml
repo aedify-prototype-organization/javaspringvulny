@@ -13,38 +13,36 @@ jobs:
   setup: 
     runs-on: ubuntu-latest
     
-    steps:
+    steps: 
     - uses: actions/checkout@v3
-    - name: (0) check out code
-
-    # - name: (1) Pull checkmarx cli
-    #   run: |
-    #     BINARY_URL="https://github.com/Checkmarx/ast-cli/releases/download/${VERSION}"
-    #     case "$(uname -sm)" in
-    #       "Linux x86_64")
-    #         BINARY_URL="${BINARY_URL}/ast-cli_${VERSION}_linux_x86.tar.gz"
-    #         SHA="${LINUX_X86_64_SHA} cx.tar.gz"
-    #         ;;
-    #       "Linux arm64")
-    #         BINARY_URL="${BINARY_URL}/ast-cli_${VERSION}_linux_arm64.tar.gz"
-    #         SHA="${LINUX_AMD64_SHA} cx.tar.gz"
-    #         ;;
-    #       "Darwin x86_64")
-    #         BINARY_URL="${BINARY_URL}/ast-cli_${VERSION}_darwin_x64.tar.gz"
-    #         SHA="${MACOS_X86_64_SHA} cx.tar.gz"
-    #         ;;
-    #       *)
-    #         echo "Unsupported machine: ${OPTARG}"
-    #         exit 1
-    #         ;;
-    #     esac
+    - name: (0) Pull checkmarx cli
+      run: |
+        BINARY_URL="https://github.com/Checkmarx/ast-cli/releases/download/${VERSION}"
+        case "$(uname -sm)" in
+          "Linux x86_64")
+            BINARY_URL="${BINARY_URL}/ast-cli_${VERSION}_linux_x86.tar.gz"
+            SHA="${LINUX_X86_64_SHA} cx.tar.gz"
+            ;;
+          "Linux arm64")
+            BINARY_URL="${BINARY_URL}/ast-cli_${VERSION}_linux_arm64.tar.gz"
+            SHA="${LINUX_AMD64_SHA} cx.tar.gz"
+            ;;
+          "Darwin x86_64")
+            BINARY_URL="${BINARY_URL}/ast-cli_${VERSION}_darwin_x64.tar.gz"
+            SHA="${MACOS_X86_64_SHA} cx.tar.gz"
+            ;;
+          *)
+            echo "Unsupported machine: ${OPTARG}"
+            exit 1
+            ;;
+        esac
     
-    #     curl -o cx.tar.gz -fsSL "${BINARY_URL}"
-    #     echo "${SHA}" | sha256sum --check
+        curl -o cx.tar.gz -fsSL "${BINARY_URL}"
+        echo "${SHA}" | sha256sum --check
 
-    #     tar -zxvf cx.tar.gz cx
-    #     rm cx.tar.gz
-    #     chmod +x cx
+        tar -zxvf cx.tar.gz cx
+        rm cx.tar.gz
+        chmod +x cx
         
   # scan:
   #   runs-on: ubuntu-latest
