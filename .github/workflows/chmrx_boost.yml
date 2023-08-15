@@ -1,0 +1,64 @@
+name: Boost test
+
+on:
+  workflow_dispatch:
+
+env: 
+  VERSION: 2.0.54
+  LINUX_X86_64_SHA: fcd89a12c8d710d45a7f24e4615e930112ee172e76fa0da5ff96e316e8fc4148
+  LINUX_ARM64_SHA: 808c7fd9020ecde6b95638795551c52c5a344d9df288ca5a62adb570e17bd2e1
+  MACOS_X86_64_SHA: bae3eec3309d4538ef724332db445f15aedf3dfacbbe0880e5c51c332bd61933
+
+jobs:
+  setup: 
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: (0) check out code
+
+    - name: (1) Pull checkmarx cli
+      run: |
+        BINARY_URL="https://github.com/Checkmarx/ast-cli/releases/download/${VERSION}"
+        case "$(uname -sm)" in
+          "Linux x86_64")
+            BINARY_URL="${BINARY_URL}/ast-cli_${VERSION}_linux_x86.tar.gz"
+            SHA="${LINUX_X86_64_SHA} cx.tar.gz"
+            ;;
+          "Linux arm64")
+            BINARY_URL="${BINARY_URL}/ast-cli_${VERSION}_linux_arm64.tar.gz"
+            SHA="${LINUX_AMD64_SHA} cx.tar.gz"
+            ;;
+          "Darwin x86_64")
+            BINARY_URL="${BINARY_URL}/ast-cli_${VERSION}_darwin_x64.tar.gz"
+            SHA="${MACOS_X86_64_SHA} cx.tar.gz"
+            ;;
+          *)
+            echo "Unsupported machine: ${OPTARG}"
+            exit 1
+            ;;
+        esac
+    
+        curl -o cx.tar.gz -fsSL "${BINARY_URL}"
+        echo "${SHA}" | sha256sum --check
+
+        tar -zxvf cx.tar.gz cx
+        rm cx.tar.gz
+        chmod +x cx
+
+    # - name: (2) conduct scan
+    #   run: | 
+    #     cx scan create --project-name "${{ github.event.repository.name }}" --branch main --report-format sarif --output-name native_output.json
+  scan:
+    runs-on: ubuntu-latest
+    container: 
+      image: m1splacedsoul/chmrx_boost:latest@sha256:77f70f7601aec9be6048f4df24e5fee76ebfd6930736326a8c979fff06bbdbb0
+
+    steps:
+      - name: (3) Acquire project listing
+        run: |
+          cx project list --filter "limit=0" --format json > CX_PROJECT_LISTING.json
+          SCAN_ID=$(/go/bin/gojq '.[] | .ID' CX_SCAN_LISTING | cut -f 2 -d '"')
+          echo "Scan ID: ${SCAN_ID}"
+          cx results show --scan-id ${SCAN_ID} --report-format sarif --output-name native_output.json
+          cat native_output.json
