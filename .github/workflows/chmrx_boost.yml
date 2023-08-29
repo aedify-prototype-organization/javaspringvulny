@@ -25,7 +25,7 @@ jobs:
       - name: (0) Stage source code
         uses: actions/checkout@v3
         with:
-          path: '.src/'
+          path: '/home/runner/src/'
       
       - name: (1) Validate login
         run: | 
