@@ -47,8 +47,8 @@ jobs:
         rm cx.tar.gz
         chmod +x cx
         
-        cx auth validate
-        cx scan create --project-name ${{ github.event.repository.name }} -s . --branch main --report-format sarif --output-path /home/dev/output --output-name native_output.json
+        ./cx auth validate
+        ./cx scan create --project-name ${{ github.event.repository.name }} -s . --branch main --report-format sarif --output-path /home/dev/output --output-name native_output.json
 
       # - name: (3) Acquire scan results
       #   run: |
