@@ -24,7 +24,7 @@ jobs:
     needs: configureuid
     container:
       image: m1splacedsoul/chmrx_boost:latest@sha256:e3942c832699b61a5be725bbce26e6565d1c5034ce282f5c92483990fbcf5dea
-    #  options: --user ${{ needs.configureUID.outputs.uid_gid }} 
+      options: --user ${{ needs.configureuid.outputs.uid_gid }} 
     steps:
       - name: (0) Stage source code
         uses: actions/checkout@v2
