@@ -23,7 +23,7 @@ jobs:
       options: --user ${{ needs.configureuid.outputs.uid_gid }} 
     steps:
       - name: (0) Stage source code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       
       - name: (1) Validate login
         run: | 
