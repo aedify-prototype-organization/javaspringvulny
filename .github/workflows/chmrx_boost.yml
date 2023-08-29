@@ -12,7 +12,7 @@ env:
   CX_APIKEY: ${{ secrets.BOOST_CX_APIKEY }}
 
 jobs:
-  setup: 
+  Run Scan: 
     runs-on: ubuntu-latest
     
     steps: 
@@ -54,6 +54,7 @@ jobs:
       options: "--user dev --entrypoint /bin/bash"
 
     steps:
+      - uses: actions/checkout@v3
       - name: (2) Scan
         run: |
           ls -al
