@@ -16,12 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: m1splacedsoul/chmrx_boost:latest@sha256:e3942c832699b61a5be725bbce26e6565d1c5034ce282f5c92483990fbcf5dea
-      options: "--user dev --entrypoint /bin/bash"
     steps:
       - name: (0) Stage source code
         uses: actions/checkout@v2
-        with:
-          path: '/home/dev/'
       
       - name: (1) Validate login
         run: | 
