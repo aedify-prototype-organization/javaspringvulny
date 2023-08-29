@@ -19,7 +19,7 @@ jobs:
       options: "--user dev --entrypoint /bin/bash"
     steps:
       - name: (0) Stage source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           path: '/home/dev/'
       
