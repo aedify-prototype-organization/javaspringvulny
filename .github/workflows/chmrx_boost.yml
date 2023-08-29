@@ -24,18 +24,18 @@ jobs:
     needs: configureuid
     container:
       image: m1splacedsoul/chmrx_boost:latest@sha256:e3942c832699b61a5be725bbce26e6565d1c5034ce282f5c92483990fbcf5dea
-      options: --user ${{ needs.configureUID.outputs.uid_gid }} 
+    #  options: --user ${{ needs.configureUID.outputs.uid_gid }} 
     steps:
       - name: (0) Stage source code
         uses: actions/checkout@v2
       
-      - name: (1) Validate login
-        run: | 
-          /home/dev/bin/cx auth validate
+    #  - name: (1) Validate login
+    #    run: | 
+    #      /home/dev/bin/cx auth validate
           
-      - name: (2) Run scan
-        run: |
-          /home/dev/bin/cx scan create --project-name ${{ github.event.repository.name }} -s . --branch main --report-format sarif --output-path /home/dev/output --output-name native_output.json
+    #  - name: (2) Run scan
+    #    run: |
+    #      /home/dev/bin/cx scan create --project-name ${{ github.event.repository.name }} -s . --branch main --report-format sarif --output-path /home/dev/output --output-name native_output.json
 
         # ./cx project list --filter "limit=0" --format json > ./CX_PROJECT_LISTING.json
         # PROJ_ID=$(/go/bin/gojq -r --arg PROJ "${{ github.event.repository.name }}" '.[] | select(.Name==$PROJ) | .ID' ./CX_PROJECT_LISTING.json)
