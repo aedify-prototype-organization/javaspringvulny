@@ -33,9 +33,9 @@ jobs:
           
       - name: (2) Run scan
         run: |
-          bin/scan_phase_driver.sh -r ${{ github.event.repository.name }} 
+          /home/runner/bin/scan_phase_driver.sh -r ${{ github.event.repository.name }} 
 
       - name: (3) Acquire scan results
         run: |
-          bin/scan_results.sh -r ${{ github.event.respository.name }} .src ./output
+          /home/runner/bin/scan_results.sh -r ${{ github.event.respository.name }} .src ./output
           cat native_output.json.sarif >> sarif.json
