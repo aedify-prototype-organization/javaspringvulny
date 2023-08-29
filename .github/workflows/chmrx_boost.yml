@@ -18,9 +18,9 @@ jobs:
       image: m1splacedsoul/chmrx_boost:latest@sha256:f9b903c2efec985f3e7631eb020e543e0e498a0ab0d42ec5a1062223f54c629f
       options: "--user dev --entrypoint /bin/bash"
     steps:
-      - uses: actions/checkout@v3
       - name: (0) Stage source code
-
+        uses: actions/checkout@v3
+      
       - name: (1) Validate login
         run: | 
           /home/dev/bin/cx auth validate
