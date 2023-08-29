@@ -38,4 +38,4 @@ jobs:
       - name: (3) Acquire scan results
         run: |
           /home/runner/bin/scan_results.sh -r ${{ github.event.repository.name }} src /home/runner/output
-          cat native_output.json.sarif >> sarif.json
+          cat /home/runner/output/native_output.json.sarif >> sarif.json
