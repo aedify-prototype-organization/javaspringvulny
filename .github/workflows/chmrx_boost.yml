@@ -24,6 +24,8 @@ jobs:
     steps:
       - name: (0) Stage source code
         uses: actions/checkout@v3
+        with:
+          path: './src/'
       
       - name: (1) Validate login
         run: | 
@@ -32,7 +34,7 @@ jobs:
       - name: (2) Run scan
         run: |
           echo `whoami`
-          /home/dev/bin/cx scan create --project-name ${{ github.event.repository.name }} -s . --branch main --report-format sarif --output-path ./ --output-name native_output.json
+          /home/dev/bin/cx scan create --project-name ${{ github.event.repository.name }} -s ./src --branch main --report-format sarif --output-path ./output --output-name native_output.json
 
           /home/dev/bin/cx project list --filter "limit=0" --format json > ./CX_PROJECT_LISTING.json
           PROJ_ID=$(/go/bin/gojq -r --arg PROJ "${{ github.event.repository.name }}" '.[] | select(.Name==$PROJ) | .ID' ./CX_PROJECT_LISTING.json)
