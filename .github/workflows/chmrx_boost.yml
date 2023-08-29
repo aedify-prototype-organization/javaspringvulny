@@ -15,7 +15,7 @@ jobs:
   Scan: 
     runs-on: ubuntu-latest
     container:
-      image: m1splacedsoul/chmrx_boost:latest@sha256:f9b903c2efec985f3e7631eb020e543e0e498a0ab0d42ec5a1062223f54c629f
+      image: m1splacedsoul/chmrx_boost:latest@sha256:e3942c832699b61a5be725bbce26e6565d1c5034ce282f5c92483990fbcf5dea
       options: "--user dev --entrypoint /bin/bash"
     steps:
       - name: (0) Stage source code
