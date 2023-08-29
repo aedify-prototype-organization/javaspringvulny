@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: (0) Stage source code
         uses: actions/checkout@v3
+        with:
+          path: '/home/dev/'
       
       - name: (1) Validate login
         run: | 
