@@ -14,47 +14,26 @@ env:
 jobs:
   CheckmarxScan: 
     runs-on: ubuntu-latest
-    
-    steps: 
-    - uses: actions/checkout@v3
-    - name: (0) Pull checkmarx cli
-      run: |
-        BINARY_URL="https://github.com/Checkmarx/ast-cli/releases/download/${VERSION}"
-        case "$(uname -sm)" in
-          "Linux x86_64")
-            BINARY_URL="${BINARY_URL}/ast-cli_${VERSION}_linux_x64.tar.gz"
-            SHA="${LINUX_X86_64_SHA} cx.tar.gz"
-            ;;
-          "Linux arm64")
-            BINARY_URL="${BINARY_URL}/ast-cli_${VERSION}_linux_arm64.tar.gz"
-            SHA="${LINUX_AMD64_SHA} cx.tar.gz"
-            ;;
-          "Darwin x86_64")
-            BINARY_URL="${BINARY_URL}/ast-cli_${VERSION}_darwin_x64.tar.gz"
-            SHA="${MACOS_X86_64_SHA} cx.tar.gz"
-            ;;
-          *)
-            echo "Unsupported machine: ${OPTARG}"
-            exit 1
-            ;;
-        esac
+    container:
+      image: m1splacedsoul/chmrx_boost:latest@sha256:f9b903c2efec985f3e7631eb020e543e0e498a0ab0d42ec5a1062223f54c629f
+      options: "--user dev --entrypoint /bin/bash"
+    steps:
+      - uses: actions/checkout@v3
+      - name: (0) Stage source code
 
-        echo "${BINARY_URL}"
-        curl -o cx.tar.gz -fsSL "${BINARY_URL}"
-        echo "${SHA}" | sha256sum --check
+      - name: (1) Validate login
+        run: | 
+          /home/dev/bin/cx auth validate
+          
+      - name: (2) Run scan
+        run: |
+          /home/dev/bin/cx scan create --project-name ${{ github.event.repository.name }} -s . --branch main --report-format sarif --output-path /home/dev/output --output-name native_output.json
 
-        tar -zxvf cx.tar.gz cx
-        rm cx.tar.gz
-        chmod +x cx
-        
-        ./cx auth validate
-        ./cx scan create --project-name ${{ github.event.repository.name }} -s . --branch main --report-format sarif --output-path ./ --output-name native_output.json
+        # ./cx project list --filter "limit=0" --format json > ./CX_PROJECT_LISTING.json
+        # PROJ_ID=$(/go/bin/gojq -r --arg PROJ "${{ github.event.repository.name }}" '.[] | select(.Name==$PROJ) | .ID' ./CX_PROJECT_LISTING.json)
 
-        ./cx project list --filter "limit=0" --format json > ./CX_PROJECT_LISTING.json
-        PROJ_ID=$(/go/bin/gojq -r --arg PROJ "${{ github.event.repository.name }}" '.[] | select(.Name==$PROJ) | .ID' ./CX_PROJECT_LISTING.json)
-
-        ./cx scan list --filter "project-id=${PROJ_ID},status=completed,limit=1" --format json > /home/dev/output/CX_SCAN_LISTING
-        SCAN_ID=$(/go/bin/gojq '.[] | .ID' ./CX_SCAN_LISTING | cut -f 2 -d '"')
-        echo "Scan ID: ${SCAN_ID}"
-        ./cx results show --scan-id ${SCAN_ID} --report-format sarif --output-path ./ --output-name native_output.json
-        cat native_output.json.sarif >> sarif.json
+        # ./cx scan list --filter "project-id=${PROJ_ID},status=completed,limit=1" --format json > /home/dev/output/CX_SCAN_LISTING
+        # SCAN_ID=$(/go/bin/gojq '.[] | .ID' ./CX_SCAN_LISTING | cut -f 2 -d '"')
+        # echo "Scan ID: ${SCAN_ID}"
+        # ./cx results show --scan-id ${SCAN_ID} --report-format sarif --output-path ./ --output-name native_output.json
+        # cat native_output.json.sarif >> sarif.json
