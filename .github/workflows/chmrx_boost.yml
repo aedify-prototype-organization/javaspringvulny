@@ -12,7 +12,7 @@ env:
   CX_APIKEY: ${{ secrets.BOOST_CX_APIKEY }}
 
 jobs:
-  Run Scan: 
+  CheckmarxScan: 
     runs-on: ubuntu-latest
     
     steps: 
