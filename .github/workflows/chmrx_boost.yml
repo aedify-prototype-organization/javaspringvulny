@@ -48,13 +48,13 @@ jobs:
         chmod +x cx
         
         ./cx auth validate
-        ./cx scan create --project-name ${{ github.event.repository.name }} -s . --branch main --report-format sarif --output-path /home/dev/output --output-name native_output.json
+        ./cx scan create --project-name ${{ github.event.repository.name }} -s . --branch main --report-format sarif --output-path ./ --output-name native_output.json
 
-        ./cx project list --filter "limit=0" --format json > /home/dev/output/CX_PROJECT_LISTING.json
-        PROJ_ID=$(/go/bin/gojq -r --arg PROJ "${{ github.event.repository.name }}" '.[] | select(.Name==$PROJ) | .ID' /home/dev/output/CX_PROJECT_LISTING.json)
+        ./cx project list --filter "limit=0" --format json > ./CX_PROJECT_LISTING.json
+        PROJ_ID=$(/go/bin/gojq -r --arg PROJ "${{ github.event.repository.name }}" '.[] | select(.Name==$PROJ) | .ID' ./CX_PROJECT_LISTING.json)
 
         ./cx scan list --filter "project-id=${PROJ_ID},status=completed,limit=1" --format json > /home/dev/output/CX_SCAN_LISTING
-        SCAN_ID=$(/go/bin/gojq '.[] | .ID' /home/dev/output/CX_SCAN_LISTING | cut -f 2 -d '"')
+        SCAN_ID=$(/go/bin/gojq '.[] | .ID' ./CX_SCAN_LISTING | cut -f 2 -d '"')
         echo "Scan ID: ${SCAN_ID}"
-        ./cx results show --scan-id ${SCAN_ID} --report-format sarif --output-path /home/dev/output --output-name native_output.json
+        ./cx results show --scan-id ${SCAN_ID} --report-format sarif --output-path ./ --output-name native_output.json
         cat native_output.json.sarif >> sarif.json
