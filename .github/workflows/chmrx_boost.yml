@@ -57,7 +57,7 @@ jobs:
       - name: (2) Scan
         run: |
           /home/dev/bin/cx auth validate
-          /home/dev/bin/cx scan create --project-name "${{ github.event.repository.name }}" -s . --branch main --report-format sarif --output-path /home/dev/output --output-name native_output.json
+          /home/dev/bin/cx scan create --project-name ${{ github.event.repository.name }} -s . --branch main --report-format sarif --output-path /home/dev/output --output-name native_output.json
 
       - name: (3) Acquire scan results
         run: |
