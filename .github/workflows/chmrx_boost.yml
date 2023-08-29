@@ -56,20 +56,21 @@ jobs:
     steps:
       - name: (2) Scan
         run: |
-          /home/dev/bin/cx auth validate
-          /home/dev/bin/cx scan create --project-name ${{ github.event.repository.name }} -s . --branch main --report-format sarif --output-path /home/dev/output --output-name native_output.json
+          ls -al
+      #     /home/dev/bin/cx auth validate
+      #     /home/dev/bin/cx scan create --project-name ${{ github.event.repository.name }} -s . --branch main --report-format sarif --output-path /home/dev/output --output-name native_output.json
 
-      - name: (3) Acquire scan results
-        run: |
-          /home/dev/bin/cx project list --filter "limit=0" --format json > /home/dev/output/CX_PROJECT_LISTING.json
-          PROJ_ID=$(/go/bin/gojq -r --arg PROJ "${{ github.event.repository.name }}" '.[] | select(.Name==$PROJ) | .ID' /home/dev/output/CX_PROJECT_LISTING.json)
+      # - name: (3) Acquire scan results
+      #   run: |
+      #     /home/dev/bin/cx project list --filter "limit=0" --format json > /home/dev/output/CX_PROJECT_LISTING.json
+      #     PROJ_ID=$(/go/bin/gojq -r --arg PROJ "${{ github.event.repository.name }}" '.[] | select(.Name==$PROJ) | .ID' /home/dev/output/CX_PROJECT_LISTING.json)
 
-          /home/dev/bin/cx scan list --filter "project-id=${PROJ_ID},status=completed,limit=1" --format json > /home/dev/output/CX_SCAN_LISTING
-          SCAN_ID=$(/go/bin/gojq '.[] | .ID' /home/dev/output/CX_SCAN_LISTING | cut -f 2 -d '"')
-          echo "Scan ID: ${SCAN_ID}"
-          /home/dev/bin/cx results show --scan-id ${SCAN_ID} --report-format sarif --output-path /home/dev/output --output-name native_output.json
+      #     /home/dev/bin/cx scan list --filter "project-id=${PROJ_ID},status=completed,limit=1" --format json > /home/dev/output/CX_SCAN_LISTING
+      #     SCAN_ID=$(/go/bin/gojq '.[] | .ID' /home/dev/output/CX_SCAN_LISTING | cut -f 2 -d '"')
+      #     echo "Scan ID: ${SCAN_ID}"
+      #     /home/dev/bin/cx results show --scan-id ${SCAN_ID} --report-format sarif --output-path /home/dev/output --output-name native_output.json
           
-      - name: (4) Post Process results
-        run: |
-          cd /home/dev/output
-          /home/dev/bin/post-process_driver.sh
+      # - name: (4) Post Process results
+      #   run: |
+      #     cd /home/dev/output
+      #     /home/dev/bin/post-process_driver.sh
