@@ -33,14 +33,9 @@ jobs:
           
       - name: (2) Run scan
         run: |
-          echo `whoami`
-          /home/runner/bin/cx scan create --project-name ${{ github.event.repository.name }} -s ./src --branch main --report-format sarif --output-path ./output --output-name native_output.json
+          bin/scan_phase_driver.sh -r ${{ github.event.repository.name }} 
 
-          /home/runner/bin/cx project list --filter "limit=0" --format json > ./CX_PROJECT_LISTING.json
-          PROJ_ID=$(/go/bin/gojq -r --arg PROJ "${{ github.event.repository.name }}" '.[] | select(.Name==$PROJ) | .ID' ./CX_PROJECT_LISTING.json)
-
-          /home/runner/bin/cx scan list --filter "project-id=${PROJ_ID},status=completed,limit=1" --format json > ./CX_SCAN_LISTING
-          SCAN_ID=$(/go/bin/gojq '.[] | .ID' ./CX_SCAN_LISTING | cut -f 2 -d '"')
-          echo "Scan ID: ${SCAN_ID}"
-          /home/runner/bin/cx results show --scan-id ${SCAN_ID} --report-format sarif --output-path ./ --output-name native_output.json
+      - name: (3) Acquire scan results
+        run: |
+          bin/scan_results.sh -r ${{ github.event.respository.name }} .src ./output
           cat native_output.json.sarif >> sarif.json
