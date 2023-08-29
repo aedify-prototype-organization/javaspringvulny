@@ -12,7 +12,7 @@ env:
   CX_APIKEY: ${{ secrets.BOOST_CX_APIKEY }}
 
 jobs:
-  configureUID:
+  configureuid:
     runs-on: ubuntu-latest
     outputs:
       uid_gid: ${{ steps.get-user.outputs.uid_gid }}
@@ -21,7 +21,7 @@ jobs:
         run: echo "{uid_gid}={$(id -u):$(id -g)}" >> $GITHUB_OUTPUT
   Scan: 
     runs-on: ubuntu-latest
-    needs: configureUID
+    needs: configureuid
     container:
       image: m1splacedsoul/chmrx_boost:latest@sha256:e3942c832699b61a5be725bbce26e6565d1c5034ce282f5c92483990fbcf5dea
       options: --user ${{ needs.configureUID.outputs.uid_gid }} 
