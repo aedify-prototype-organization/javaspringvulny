@@ -14,7 +14,7 @@ jobs:
       uid_gid: ${{ steps.get-user.outputs.uid_gid }}
     steps:
       - id: get-user
-        run: echo "::set-output name=uid_gid::$(id -u):$(id -g)"
+        run: echo "uid_gid=$(id -u):$(id -g)" >> $GITHUB_OUTPUT
   Scan: 
     runs-on: ubuntu-latest
     needs: configureuid
@@ -34,7 +34,6 @@ jobs:
       - name: (2) Run scan
         run: |
           /home/runner/bin/scan_phase_driver.sh -r ${{ github.event.repository.name }} 
-
       - name: (3) Acquire scan results
         run: |
           /home/runner/bin/scan_results.sh -r ${{ github.event.repository.name }} src /home/runner/output
