@@ -17,4 +17,4 @@ jobs:
     steps:
       - name: Report
         run: |
-          echo ${{ configuruid.outputs.uid_gid }}
+          echo ${{ needs.configuruid.outputs.uid_gid }}
