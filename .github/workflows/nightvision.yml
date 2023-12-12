@@ -33,7 +33,7 @@ jobs:
                   python -m pip install semgrep --user
 
     - name: (3) Extract API documentation from code
-      run: nightvision swagger-extract ./ -u ${NIGHTVISION_TARGET} --lang spring
+      run: nightvision swagger extract ./ -u ${NIGHTVISION_TARGET} --lang spring
 
     - name: (5) Scan the API
       run: nightvision scan --creds-id ${NIGHTVISION_TARGET_CREDENTIALS} ${NIGHTVISION_TARGET}
