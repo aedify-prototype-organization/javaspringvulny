@@ -10,6 +10,7 @@ permissions:
 env:
   NIGHTVISION_TOKEN: ${{ secrets.NIGHTVISION_TOKEN }}
   NIGHTVISION_TARGET_CREDENTIALS: ${{ vars.NIGHTVISION_TARGET_CREDENTIALS }}
+  NIGHTVISION_TARGET_ID: ${{ vars.NIGHTVISION_TARGET_ID }}
   NIGHTVISION_TARGET: https://localhost:9000/
   
 jobs:
@@ -33,7 +34,7 @@ jobs:
                   python -m pip install semgrep --user
 
     - name: (3) Extract API documentation from code
-      run: nightvision swagger extract ./ --lang spring
+      run: nightvision swagger extract ./ --lang spring -T ${NIGHTVISION_TARGET_ID}
 
     - name: (5) Scan the API
       run: nightvision scan --creds-id ${NIGHTVISION_TARGET_CREDENTIALS} ${NIGHTVISION_TARGET}
