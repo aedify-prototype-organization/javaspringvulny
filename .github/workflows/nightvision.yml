@@ -37,7 +37,7 @@ jobs:
       run: nightvision swagger extract ./ --lang spring -T ${NIGHTVISION_TARGET_ID}
 
     - name: (5) Scan the API
-      run: nightvision scan --creds-id ${NIGHTVISION_TARGET_CREDENTIALS} ${NIGHTVISION_TARGET}
+      run: nightvision scan --creds-id ${NIGHTVISION_TARGET_CREDENTIALS} ${NIGHTVISION_TARGET} -T ${NIGHTVISION_TARGET_ID}
 
     - name: (6) Upload SARIF file to GitHub Security Alerts if vulnerabilities are found
       uses: github/codeql-action/upload-sarif@v2
